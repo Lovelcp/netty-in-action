@@ -8,6 +8,11 @@
     <artifactId>netty</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
     <modules>
         <module>netty-in-action-chapter-2</module>
     </modules>
