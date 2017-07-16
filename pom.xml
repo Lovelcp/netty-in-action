@@ -16,6 +16,7 @@
     <modules>
         <module>netty-in-action-chapter-2</module>
         <module>netty-in-action-chapter-4</module>
+        <module>netty-in-action-chapter-5</module>
     </modules>
 
     <dependencies>
