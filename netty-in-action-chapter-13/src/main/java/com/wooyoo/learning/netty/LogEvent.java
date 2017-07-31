@@ -32,7 +32,7 @@ public final class LogEvent {
         return msg;
     }
 
-    public long getReceived() {
+    public long getReceivedTimestamp() {
         return received;
     }
 }
