@@ -20,7 +20,7 @@ public class LogEventBroadcaster {
         group = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
         bootstrap.group(group)
-                 .channel(NioDatagramChannel.class)
+                 .channel(NioDatagramChannel.class) // 与TCP不同的无连接channel
                  .option(ChannelOption.SO_BROADCAST, true)
                  .handler(new LogEventEncoder(address));
         this.file = file;
@@ -35,17 +35,17 @@ public class LogEventBroadcaster {
             long len = file.length();
             if (len < pointer) {
                 // file was reset
-                pointer = len;
+                pointer = len; // 如果有必要，将文件指针设置到该文件的最后一个字节
             }
             else if (len > pointer) {
                 // Content was added
                 RandomAccessFile raf = new RandomAccessFile(file, "r");
-                raf.seek(pointer);
+                raf.seek(pointer); // 设置当前的文件指针，以确保没有任何的旧日志被发送
                 String line;
                 while ((line = raf.readLine()) != null) {
-                    ch.writeAndFlush(new LogEvent(null, -1, file.getAbsolutePath(), line));
+                    ch.writeAndFlush(new LogEvent(null, -1, file.getAbsolutePath(), line)); // 对于每个日志条目，写入一个LogEvent到Channel中
                 }
-                pointer = raf.getFilePointer();
+                pointer = raf.getFilePointer(); // 存储其在文件中的当前位置
                 raf.close();
             }
 
